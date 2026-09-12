@@ -1,0 +1,257 @@
+DIST2#sh running-config 
+Building configuration...
+
+Current configuration : 4816 bytes
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname DIST2
+!
+!
+no profinet
+enable secret 5 $1$mERr$GKMZ.TvYqCZiPjgj0z2F/1
+!
+!
+!
+!
+!
+aaa new-model
+!
+aaa authentication login default group tacacs+ local 
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+ip routing
+!
+no ipv6 cef
+!
+!
+!
+username backup privilege 15 secret 5 $1$mERr$itI3Lxy4LKnzfGL0gx36m.
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain-name technova.local
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 30,40,50 priority 24576
+spanning-tree vlan 10,20,60,70 priority 28672
+!
+!
+!
+!
+!
+!
+interface Port-channel3
+ description To_AccessSW3
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,60
+ switchport mode trunk
+!
+interface Port-channel10
+ description To_DIST1
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+!
+interface Port-channel15
+ description To-ServerSW
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/1
+ description To_core_R1
+ no switchport
+ ip address 10.255.0.10 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf priority 1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet1/0/2
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,60
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/0/3
+ description Access_SW_4
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 40,60
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description To_MGMTSW
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+ channel-group 10 mode active
+!
+interface GigabitEthernet1/0/6
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+ channel-group 10 mode active
+!
+interface GigabitEthernet1/0/7
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+ channel-group 15 mode active
+!
+interface GigabitEthernet1/0/8
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,999
+ switchport mode trunk
+ channel-group 15 mode active
+!
+interface GigabitEthernet1/0/9
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 30,60
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/0/10
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 40
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ description IT_GW
+ mac-address 00d0.ffbc.b901
+ ip address 10.10.10.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 10 ip 10.10.10.1
+!
+interface Vlan20
+ description IT_GW
+ mac-address 00d0.ffbc.b902
+ ip address 10.10.20.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 20 ip 10.10.20.1
+!
+interface Vlan30
+ description Finance_GW
+ mac-address 00d0.ffbc.b903
+ ip address 10.10.30.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 30 ip 10.10.30.1
+!
+interface Vlan40
+ description Guest_GW
+ mac-address 00d0.ffbc.b904
+ ip address 10.10.40.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 40 ip 10.10.40.1
+!
+interface Vlan50
+ mac-address 00d0.ffbc.b905
+ ip address 10.10.50.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 50 ip 10.10.50.1
+!
+interface Vlan60
+ mac-address 00d0.ffbc.b906
+ ip address 10.10.60.3 255.255.255.0
+ ip helper-address 10.10.50.10
+ standby 60 ip 10.10.60.1
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.255.0.8 0.0.0.3 area 0
+ network 10.10.10.0 0.0.0.255 area 0
+ network 10.10.20.0 0.0.0.255 area 0
+ network 10.10.30.0 0.0.0.255 area 0
+ network 10.10.40.0 0.0.0.255 area 0
+ network 10.10.50.0 0.0.0.255 area 0
+ network 10.10.60.0 0.0.0.255 area 0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+tacacs-server host 10.10.60.20
+tacacs-server key tacacs123
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login authentication default
+ transport input ssh
+!
+!
+!
+!
+end
+
+
+DIST2#
